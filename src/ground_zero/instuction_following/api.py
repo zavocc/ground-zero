@@ -2,11 +2,11 @@ from typing import Self
 
 import httpx
 
-from ground_zero.tasks.hallucinations import SimpleTask, ToolCallTask
+from ground_zero.tasks.instruction_following import SimpleTask
 
 from .questions import GZ_QUESTIONS_BASE
 
-TASKMODES = SimpleTask | ToolCallTask
+TASKMODES = SimpleTask
 
 
 class Checker:
