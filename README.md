@@ -11,7 +11,9 @@ Powered by Jev AI by TypeSafe as a primary decision-making capability. This libr
 The name "Ground Zero" is based on the definition:
 > the point directly above, below, or at which an explosion and especially a nuclear explosion occurs [Webster](https://www.merriam-webster.com/dictionary/ground%20zero)
 
-where the word "Ground" in the context of AI is to inform responses based on the information given, it also means to focus on user's prompt and source material to generate a response.
+where the word "ground" in the context of ai refers to anchoring a model's response to the information it is given, such as the user's prompt, source material, or tool outputs
+
+in "Ground Zeros", these inputs act as the reference point from which a response should originate and remain grounded, making it possible to evaluate when the model begins to drift away from the inputs
 
 ## Use cases
 * Verify model responses on demand and decide whether to warn users, refuse the response, or flag answers that are not grounded in the prompt or source material
