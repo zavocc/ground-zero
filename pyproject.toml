@@ -1,6 +1,6 @@
 [project]
 name = "ground-zero"
-version = "0.3a0"
+version = "0.4a0"
 description = "Decision library to detect and classify AI hallucinations, powered by Jev AI."
 readme = "README.md"
 authors = [
