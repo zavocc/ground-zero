@@ -2,11 +2,11 @@ from typing import Self
 
 import httpx
 
+from .schema import GZ_QUESTIONS_BASE, GZ_QUESTIONS_TASK_TOOLCALL
 from .tasks.simple import SimpleIOTask
 from .tasks.toolcall import ToolCallIOTask
-from .schema import GZ_QUESTIONS_BASE, GZ_QUESTIONS_TASK_TOOLCALL
 
-EVAL_TASK = SimpleIOTask | ToolCallIOTask
+TASKMODES = SimpleIOTask | ToolCallIOTask
 
 
 class Checker:
@@ -25,7 +25,7 @@ class Checker:
     def __exit__(self, *args: object) -> None:
         self.close()
 
-    def evaluate(self, task: EVAL_TASK):
+    def evaluate(self, task: TASKMODES, show_simplified_results: bool = False):
         # determine question type
         question_type = GZ_QUESTIONS_TASK_TOOLCALL if isinstance(task, ToolCallIOTask) else GZ_QUESTIONS_BASE
 
@@ -53,7 +53,12 @@ class Checker:
 
         or_response.raise_for_status()
 
-        return or_response.json()
+        result = or_response.json()
+
+        if show_simplified_results:
+            return result | {"notice": "Simplified results are a work in progress!"}
+
+        return result
 
 class AsyncChecker:
     def __init__(self, api_key: str, client: httpx.AsyncClient | None = None, timeout: float = 30.0) -> None:
@@ -71,7 +76,7 @@ class AsyncChecker:
     async def __aexit__(self, *args: object) -> None:
         await self.aclose()
 
-    async def evaluate(self, task: EVAL_TASK):
+    async def evaluate(self, task: TASKMODES, show_simplified_results: bool = False):
         # determine question type
         question_type = GZ_QUESTIONS_TASK_TOOLCALL if isinstance(task, ToolCallIOTask) else GZ_QUESTIONS_BASE
 
@@ -99,4 +104,9 @@ class AsyncChecker:
 
         or_response.raise_for_status()
 
-        return or_response.json()
+        result = or_response.json()
+
+        if show_simplified_results:
+            return result | {"notice": "Simplified results are a work in progress!"}
+
+        return result

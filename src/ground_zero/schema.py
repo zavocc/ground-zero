@@ -11,16 +11,15 @@ GZ_QUESTIONS_BASE: Final = {
     },
     "hallucination_severity": {
         "type": "score",
-        "instructions": "How severely do unsupported or contradictory claims affect the reliability of the output? An explicitly requested historical timeframe is valid and must not be treated as outdated.",
+        "instructions": "How severely do unsupported or contradictory claims affect the reliability of the output?",
         "criteria": [
             "Follows the prompt, uses the source, and stays relevant",
             "Mostly grounded but adds a minor unsupported detail",
             "Partly grounded with material out-of-context claims",
             "Major claims are unsupported or irrelevant",
             "Mostly contradicts or disregards the prompt and source",
-            "Introduces a timeframe that conflicts with or is unsupported by the prompt."
         ],
-    },
+    }
 }
 
 GZ_QUESTIONS_TASK_TOOLCALL = GZ_QUESTIONS_BASE | {
@@ -38,6 +37,14 @@ GZ_QUESTIONS_TASK_TOOLCALL = GZ_QUESTIONS_BASE | {
         "criteria": {
             "true": "At least one tool call omitted a required argument",
             "false": "Every tool call included all required arguments",
+        },
+    },
+    "has_timeframe_conflict": {
+        "type": "noul",
+        "instructions": "Does the tool call pre-emptively injects its own timeframe for queries like 'latest news today' or 'latest news 2023' but the model injects '2024' instead?",
+        "criteria": {
+            "true": "The output introduces a conflicting or unsupported timeframe",
+            "false": "The output follows the timeframe requested by the prompt",
         },
     },
 }
