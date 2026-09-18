@@ -158,7 +158,7 @@ prompt = ToolCallTask(
     tools=[
         ToolSchema(
             name="bing_search",
-            description="Search the web for the latest tech news",
+            description="Search the web for up-to-date information",
             parameters={
                 "query": {
                     "type": "string",
@@ -245,7 +245,7 @@ prompt = ToolCallTask(
     tools=[
         ToolSchema(
             name="bing_search",
-            description="Search the web for the latest tech news",
+            description="Search the web for up-to-date information",
             parameters={
                 "query": {
                     "type": "string",
