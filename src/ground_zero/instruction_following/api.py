@@ -4,7 +4,7 @@ import httpx
 
 from ground_zero.tasks.instruction_following import SimpleTask
 
-from .questions import GZ_QUESTIONS_BASE
+from .questions import GZ_QUESTIONS_BASE, GZ_QUESTIONS_COMPLETION_STATUS
 
 TASKMODES = SimpleTask
 
@@ -25,9 +25,11 @@ class Checker:
     def __exit__(self, *args: object) -> None:
         self.close()
 
-    def evaluate(self, task: TASKMODES, show_simplified_results: bool = False):
+    def evaluate(self, task: TASKMODES, include_completion_status: bool = False):
         # determine question type
         question_type = GZ_QUESTIONS_BASE
+        if include_completion_status:
+            question_type = GZ_QUESTIONS_BASE | GZ_QUESTIONS_COMPLETION_STATUS
 
         # headers
         or_headers = {
@@ -54,10 +56,6 @@ class Checker:
         or_response.raise_for_status()
 
         result = or_response.json()["answers"]
-
-        if show_simplified_results:
-            return result | {"notice": "Simplified results are a work in progress!"}
-
         return result
 
 class AsyncChecker:
@@ -76,9 +74,11 @@ class AsyncChecker:
     async def __aexit__(self, *args: object) -> None:
         await self.aclose()
 
-    async def evaluate(self, task: TASKMODES, show_simplified_results: bool = False):
+    async def evaluate(self, task: TASKMODES, include_completion_status: bool = False):
         # determine question type
         question_type = GZ_QUESTIONS_BASE
+        if include_completion_status:
+            question_type = GZ_QUESTIONS_BASE | GZ_QUESTIONS_COMPLETION_STATUS
 
         # headers
         or_headers = {
@@ -105,8 +105,4 @@ class AsyncChecker:
         or_response.raise_for_status()
 
         result = or_response.json()["answers"]
-
-        if show_simplified_results:
-            return result | {"notice": "Simplified results are a work in progress!"}
-
         return result
