@@ -33,7 +33,7 @@ Ground Zero can currently evaluate model's responses within the following:
 
 there will be plans to expand for additional areas such as:
 - Multi-turn conversations
-- System instructions
+- System instruction adherence
 
 ## Text prompts
 To perform basic text prompt evaluation, use `SimpleTask` and `Checker.evaluate` method, you first need to define `SimpleTask` then pass it to `Checker.evaluate`.
@@ -310,3 +310,6 @@ Despite it's goal is to evaluate model's hallucination rate, it cannot reliably 
 Ground Zero is still early in development. These are still planned:
 
 - [ ] Better documentation and schema - Documentation and schema is still work in progress and things may change
+- [ ] Scope expansion - in addition to hallucinations, this might evolve to evaluate other aspects of model behavior:
+  - [ ] Instruction following - evaluates if the model strictly adheres to the instruction including system instructions, multi-turn and policy compliance
+  - [ ] Task completion - evaluates if the model can complete the task from the prompt and context
