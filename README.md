@@ -215,6 +215,84 @@ The results are:
 
 For this task, in addition from evaluating model responses from `GZ_QUESTIONS_BASE`, it also evaluates tool calls with `GZ_QUESTIONS_TASK_TOOLCALL` which assess models tool calling capabilities. Such as tool calling hallucinations, missing required arguments, and time frame conflicts.
 
+---
+
+With grounded response, the hallucination severity scores drops significantly.
+
+```python
+from ground_zero import ToolCallTask, ToolCall, Checker, ToolSchema
+from os import getenv
+import json
+
+prompt = ToolCallTask(
+    prompt="What's the latest news in tech news",
+    tool_calls=[
+        ToolCall(
+            name="bing_search",
+            arguments={"query": "latest tech news today"},
+            result="{'date':'2026-09-18', 'summary': [{'topic': 'memory chips', 'news': 'china's cxmt is preparing a push into nand flash memory as ai-server demand tightens global supply'}, {'topic': 'ai infrastructure', 'news': 'globalfoundries and marvell expanded their chip-production partnership for ai data-center connectivity'}, {'topic': 'ai chips', 'news': 'huawei plans to launch its next-generation ascend 960dt ai chip in q1 2027'}, {'topic': 'smart glasses', 'news': 'french regulators are increasing scrutiny of ai-enabled smart glasses over privacy concerns'}]}"
+        )
+    ],
+    tools=[
+        ToolSchema(
+            name="bing_search",
+            description="Search the web for the latest tech news",
+            parameters={
+                "query": {
+                    "type": "string",
+                    "description": "The search query"
+                }
+            },
+            required=["query"]
+        )
+    ],
+    output="The latest tech news today as follows: 1.  China's CXMT is preparing a push into NAND flash memory as AI server demand tightens global supply, 2.  Globalfoundries and Marvell expanded their chip-production partnership for AI data-center connectivity, 3.  Huawei plans to launch its next-generation Ascend 960DT AI chip in Q1 2027, 4.  French regulators are increasing scrutiny of AI-enabled smart glasses over privacy concerns"
+)
+
+with Checker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
+    out = checker.evaluate(prompt)
+    print(json.dumps(out, indent=4))
+```
+```
+{
+    "hallucination_severity": {
+        "type": "score",
+        "score": 0.02,
+        "legend": {
+            "0": "Follows the prompt, uses the source, and stays relevant",
+            "1": "Mostly grounded but adds a minor unsupported detail",
+            "2": "Partly grounded with material out-of-context claims",
+            "3": "Major claims are unsupported or irrelevant",
+            "4": "Mostly contradicts or disregards the prompt and source"
+        },
+        "probabilities": {
+            "0": 0.99,
+            "1": 0.01,
+            "2": 0,
+            "3": 0,
+            "4": 0
+        },
+        "confidence": 0.98
+    },
+    "has_unsupported_claims": {
+        "type": "noul",
+        "noul": 0.04
+    },
+    "called_nonexistent_tool": {
+        "type": "noul",
+        "noul": 0.03
+    },
+    "missing_required_arguments": {
+        "type": "noul",
+        "noul": 0.03
+    },
+    "has_timeframe_conflict": {
+        "type": "noul",
+        "noul": 0.05
+    }
+}
+```
+
 # Limitations
 Despite it's goal is to evaluate model's hallucination rate, it cannot reliably perform the following:
 - Assess model's parametric knowledge - this library can evaluate if the model sticks to the prompt and provided source material, not its factuality and world knowledge from its weights. Therefore if the question contains ungrounded prompt with simple factual questions, this won't work well.
