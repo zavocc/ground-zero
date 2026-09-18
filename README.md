@@ -96,22 +96,22 @@ It outputs the following response (higher scores means higher confidence per cri
 {
     "hallucination_severity": {
         "type": "score",
-        "score": 3.77,
+        "score": 3.93,
         "legend": {
-            "0": "Follows the prompt, uses the source, and stays relevant",
-            "1": "Mostly grounded but adds a minor unsupported detail",
-            "2": "Partly grounded with material out-of-context claims",
-            "3": "Major claims are unsupported or irrelevant",
-            "4": "Mostly contradicts or disregards the prompt and source"
+            "0": "Fully grounded: all material claims are supported by the supplied evidence",
+            "1": "Minor hallucination: an unsupported detail is present but does not affect the conclusion",
+            "2": "Moderate hallucination: material claims are unsupported, but the core conclusion remains grounded",
+            "3": "Severe hallucination: a central claim or conclusion is unsupported or contradicted, but some grounded content remains",
+            "4": "Total fabrication: most material claims are unsupported or contradicted, leaving no reliable grounded conclusion"
         },
         "probabilities": {
             "0": 0,
-            "1": 0,
+            "1": 0.01,
             "2": 0,
-            "3": 0.22,
-            "4": 0.78
+            "3": 0.04,
+            "4": 0.95
         },
-        "confidence": 0.81
+        "confidence": 0.94
     },
     "has_unsupported_claims": {
         "type": "noul",
@@ -120,7 +120,23 @@ It outputs the following response (higher scores means higher confidence per cri
 }
 ```
 
-It means the likely certainty is the model is hallucinating by contradicting or disregarding the prompt and source material, while it made an unrelated claim that it is a subsidary of Sun Microsystems.
+### How the severity score is computed
+
+Each severity criterion is assigned its position in the list, starting at `0`. With five criteria, the score ranges from `0` to `4`. Jev computes the score as the probability-weighted average of those positions:
+
+```text
+score = sum(level × probability_of_level)
+```
+
+For the response above:
+
+```text
+(0 × 0.00) + (1 × 0.01) + (2 × 0.00) + (3 × 0.04) + (4 × 0.95) = 3.93
+```
+
+This places the response close to level `4`, total fabrication. The `confidence` value describes how concentrated the probabilities are around the selected severity levels; it is separate from the severity score and does not guarantee that the evaluation is correct. Inspect `probabilities` alongside `score` because different probability distributions can produce the same score.
+
+It also means the likely certainty is the model is hallucinating by contradicting or disregarding the prompt and source material, while it made an unrelated claim that it is a subsidary of Sun Microsystems.
 
 The question schema is provided in [schema.py](./src/ground_zero/schema.py) (MIGHT CHANGE AT ANYTIME)
 
@@ -139,13 +155,6 @@ import json
 
 prompt = ToolCallTask(
     prompt="What's the latest news in tech news",
-    tool_calls=[
-        ToolCall(
-            name="web_search",
-            arguments={"query": "latest tech 2024"},
-            result="ERROR: A function 'web_search' does not exist"
-        )
-    ],
     tools=[
         ToolSchema(
             name="bing_search",
@@ -157,6 +166,13 @@ prompt = ToolCallTask(
                 }
             },
             required=["query"]
+        )
+    ],
+    tool_calls=[
+        ToolCall(
+            name="web_search",
+            arguments={"query": "latest tech 2024"},
+            result="ERROR: A function 'web_search' does not exist"
         )
     ],
     output="The latest tech news today for 2024 is apple announces iPhone 15"
@@ -177,38 +193,38 @@ The results are:
 {
     "hallucination_severity": {
         "type": "score",
-        "score": 3.15,
+        "score": 3.27,
         "legend": {
-            "0": "Follows the prompt, uses the source, and stays relevant",
-            "1": "Mostly grounded but adds a minor unsupported detail",
-            "2": "Partly grounded with material out-of-context claims",
-            "3": "Major claims are unsupported or irrelevant",
-            "4": "Mostly contradicts or disregards the prompt and source"
+            "0": "Fully grounded: all material claims are supported by the supplied evidence",
+            "1": "Minor hallucination: an unsupported detail is present but does not affect the conclusion",
+            "2": "Moderate hallucination: material claims are unsupported, but the core conclusion remains grounded",
+            "3": "Severe hallucination: a central claim or conclusion is unsupported or contradicted, but some grounded content remains",
+            "4": "Total fabrication: most material claims are unsupported or contradicted, leaving no reliable grounded conclusion"
         },
         "probabilities": {
-            "0": 0.01,
+            "0": 0.17,
             "1": 0,
-            "2": 0.01,
-            "3": 0.8,
-            "4": 0.18
+            "2": 0,
+            "3": 0.03,
+            "4": 0.8
         },
-        "confidence": 0.83
+        "confidence": 0.39
     },
     "has_unsupported_claims": {
         "type": "noul",
-        "noul": 0.96
+        "noul": 0.32
     },
     "called_nonexistent_tool": {
         "type": "noul",
-        "noul": 0.97
+        "noul": 0.98
     },
     "missing_required_arguments": {
         "type": "noul",
-        "noul": 0.11
+        "noul": 0.1
     },
     "has_timeframe_conflict": {
         "type": "noul",
-        "noul": 0.7
+        "noul": 0.68
     }
 }
 ```
@@ -226,13 +242,6 @@ import json
 
 prompt = ToolCallTask(
     prompt="What's the latest news in tech news",
-    tool_calls=[
-        ToolCall(
-            name="bing_search",
-            arguments={"query": "latest tech news today"},
-            result="{'date':'2026-09-18', 'summary': [{'topic': 'memory chips', 'news': 'china's cxmt is preparing a push into nand flash memory as ai-server demand tightens global supply'}, {'topic': 'ai infrastructure', 'news': 'globalfoundries and marvell expanded their chip-production partnership for ai data-center connectivity'}, {'topic': 'ai chips', 'news': 'huawei plans to launch its next-generation ascend 960dt ai chip in q1 2027'}, {'topic': 'smart glasses', 'news': 'french regulators are increasing scrutiny of ai-enabled smart glasses over privacy concerns'}]}"
-        )
-    ],
     tools=[
         ToolSchema(
             name="bing_search",
@@ -246,6 +255,13 @@ prompt = ToolCallTask(
             required=["query"]
         )
     ],
+    tool_calls=[
+        ToolCall(
+            name="bing_search",
+            arguments={"query": "latest tech news today"},
+            result="{'date':'2026-09-18', 'summary': [{'topic': 'memory chips', 'news': 'china's cxmt is preparing a push into nand flash memory as ai-server demand tightens global supply'}, {'topic': 'ai infrastructure', 'news': 'globalfoundries and marvell expanded their chip-production partnership for ai data-center connectivity'}, {'topic': 'ai chips', 'news': 'huawei plans to launch its next-generation ascend 960dt ai chip in q1 2027'}, {'topic': 'smart glasses', 'news': 'french regulators are increasing scrutiny of ai-enabled smart glasses over privacy concerns'}]}"
+        )
+    ],
     output="The latest tech news today as follows: 1.  China's CXMT is preparing a push into NAND flash memory as AI server demand tightens global supply, 2.  Globalfoundries and Marvell expanded their chip-production partnership for AI data-center connectivity, 3.  Huawei plans to launch its next-generation Ascend 960DT AI chip in Q1 2027, 4.  French regulators are increasing scrutiny of AI-enabled smart glasses over privacy concerns"
 )
 
@@ -257,13 +273,13 @@ with Checker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
 {
     "hallucination_severity": {
         "type": "score",
-        "score": 0.02,
+        "score": 0.01,
         "legend": {
-            "0": "Follows the prompt, uses the source, and stays relevant",
-            "1": "Mostly grounded but adds a minor unsupported detail",
-            "2": "Partly grounded with material out-of-context claims",
-            "3": "Major claims are unsupported or irrelevant",
-            "4": "Mostly contradicts or disregards the prompt and source"
+            "0": "Fully grounded: all material claims are supported by the supplied evidence",
+            "1": "Minor hallucination: an unsupported detail is present but does not affect the conclusion",
+            "2": "Moderate hallucination: material claims are unsupported, but the core conclusion remains grounded",
+            "3": "Severe hallucination: a central claim or conclusion is unsupported or contradicted, but some grounded content remains",
+            "4": "Total fabrication: most material claims are unsupported or contradicted, leaving no reliable grounded conclusion"
         },
         "probabilities": {
             "0": 0.99,
@@ -272,11 +288,11 @@ with Checker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
             "3": 0,
             "4": 0
         },
-        "confidence": 0.98
+        "confidence": 0.99
     },
     "has_unsupported_claims": {
         "type": "noul",
-        "noul": 0.04
+        "noul": 0.03
     },
     "called_nonexistent_tool": {
         "type": "noul",
@@ -292,6 +308,8 @@ with Checker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
     }
 }
 ```
+
+Since the response is fully grounded, on hallucination severity field, this places the probability-weighted arithmetic mean of the `score` within the "Fully Grounded" category.
 
 # Limitations
 Despite it's goal is to evaluate model's hallucination rate, it cannot reliably perform the following:

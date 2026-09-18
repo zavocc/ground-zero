@@ -3,13 +3,13 @@ from typing import Final
 GZ_QUESTIONS_BASE: Final = {
     "hallucination_severity": {
         "type": "score",
-        "instructions": "How severely do unsupported or contradictory claims affect the reliability of the output?",
+        "instructions": "Is the output grounded based on the prompt and source material?",
         "criteria": [
-            "Follows the prompt, uses the source, and stays relevant",
-            "Mostly grounded but adds a minor unsupported detail",
-            "Partly grounded with material out-of-context claims",
-            "Major claims are unsupported or irrelevant",
-            "Mostly contradicts or disregards the prompt and source",
+            "Fully grounded: all material claims are supported by the supplied evidence",
+            "Minor hallucination: an unsupported detail is present but does not affect the conclusion",
+            "Moderate hallucination: material claims are unsupported, but the core conclusion remains grounded",
+            "Severe hallucination: a central claim or conclusion is unsupported or contradicted, but some grounded content remains",
+            "Total fabrication: most material claims are unsupported or contradicted, leaving no reliable grounded conclusion",
         ],
     },
     "has_unsupported_claims": {
