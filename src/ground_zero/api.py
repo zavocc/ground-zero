@@ -53,7 +53,7 @@ class Checker:
 
         or_response.raise_for_status()
 
-        result = or_response.json()
+        result = or_response.json()["answers"]
 
         if show_simplified_results:
             return result | {"notice": "Simplified results are a work in progress!"}
@@ -104,7 +104,7 @@ class AsyncChecker:
 
         or_response.raise_for_status()
 
-        result = or_response.json()
+        result = or_response.json()["answers"]
 
         if show_simplified_results:
             return result | {"notice": "Simplified results are a work in progress!"}

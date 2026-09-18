@@ -1,14 +1,6 @@
 from typing import Final
 
 GZ_QUESTIONS_BASE: Final = {
-    "has_unsupported_claims": {
-        "type": "noul",
-        "instructions": "Does the output contain any material claim that is unsupported or contradictory to the supplied evidence?",
-        "criteria": {
-            "true": "At least one material claim is unsupported or contradictory",
-            "false": "Every material claim is supported by the supplied evidence",
-        },
-    },
     "hallucination_severity": {
         "type": "score",
         "instructions": "How severely do unsupported or contradictory claims affect the reliability of the output?",
@@ -19,6 +11,14 @@ GZ_QUESTIONS_BASE: Final = {
             "Major claims are unsupported or irrelevant",
             "Mostly contradicts or disregards the prompt and source",
         ],
+    },
+    "has_unsupported_claims": {
+        "type": "noul",
+        "instructions": "Does the output contain any material claim that is unsupported or contradictory to the supplied evidence?",
+        "criteria": {
+            "true": "At least one material claim is unsupported or contradictory",
+            "false": "Every material claim is supported by the supplied evidence",
+        },
     }
 }
 
