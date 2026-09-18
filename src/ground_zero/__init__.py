@@ -1,6 +1,6 @@
-from .api import Checker
-from .models.simple import SimpleIOTask as SimpleTask
-from .models.toolcall import ToolCall
-from .models.toolcall import ToolCallIOTask as ToolCallTask
+from .api import AsyncChecker, Checker
+from .tasks.simple import SimpleIOTask as SimpleTask
+from .tasks.toolcall import ToolCall, ToolSchema
+from .tasks.toolcall import ToolCallIOTask as ToolCallTask
 
-__all__ = ["Checker", "SimpleTask", "ToolCall", "ToolCallTask"]
+__all__ = ["AsyncChecker", "Checker", "SimpleTask", "ToolCall", "ToolCallTask", "ToolSchema"]
