@@ -1,0 +1,22 @@
+[project]
+name = "ground-zero"
+version = "0.1.0"
+description = "Decision library to detect and classify AI hallucinations, powered by Jev AI."
+readme = "README.md"
+authors = [
+    { name = "zavocc", email = "buffer.0verfl0w1030@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic>=2.13.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.12,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.8",
+]
