@@ -25,7 +25,7 @@ class Checker:
     def __exit__(self, *args: object) -> None:
         self.close()
 
-    def evaluate(self, task: TASKMODES, show_simplified_results: bool = False):
+    def evaluate(self, task: TASKMODES):
         # determine question type
         question_type = GZ_QUESTIONS_TASK_TOOLCALL if isinstance(task, ToolCallTask) else GZ_QUESTIONS_BASE
 
@@ -54,10 +54,6 @@ class Checker:
         or_response.raise_for_status()
 
         result = or_response.json()["answers"]
-
-        if show_simplified_results:
-            return result | {"notice": "Simplified results are a work in progress!"}
-
         return result
 
 class AsyncChecker:
@@ -76,7 +72,7 @@ class AsyncChecker:
     async def __aexit__(self, *args: object) -> None:
         await self.aclose()
 
-    async def evaluate(self, task: TASKMODES, show_simplified_results: bool = False):
+    async def evaluate(self, task: TASKMODES):
         # determine question type
         question_type = GZ_QUESTIONS_TASK_TOOLCALL if isinstance(task, ToolCallTask) else GZ_QUESTIONS_BASE
 
@@ -105,8 +101,4 @@ class AsyncChecker:
         or_response.raise_for_status()
 
         result = or_response.json()["answers"]
-
-        if show_simplified_results:
-            return result | {"notice": "Simplified results are a work in progress!"}
-
         return result
