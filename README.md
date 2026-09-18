@@ -112,10 +112,6 @@ It outputs the following response (higher scores means higher confidence per cri
             "4": 0.95
         },
         "confidence": 0.94
-    },
-    "has_unsupported_claims": {
-        "type": "noul",
-        "noul": 0.98
     }
 }
 ```
@@ -210,10 +206,6 @@ The results are:
         },
         "confidence": 0.39
     },
-    "has_unsupported_claims": {
-        "type": "noul",
-        "noul": 0.32
-    },
     "called_nonexistent_tool": {
         "type": "noul",
         "noul": 0.98
@@ -289,10 +281,6 @@ with Checker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
             "4": 0
         },
         "confidence": 0.99
-    },
-    "has_unsupported_claims": {
-        "type": "noul",
-        "noul": 0.03
     },
     "called_nonexistent_tool": {
         "type": "noul",

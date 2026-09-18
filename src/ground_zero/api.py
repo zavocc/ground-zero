@@ -2,7 +2,7 @@ from typing import Self
 
 import httpx
 
-from .schema import GZ_QUESTIONS_BASE, GZ_QUESTIONS_TASK_TOOLCALL
+from .questions import GZ_QUESTIONS_BASE, GZ_QUESTIONS_TASK_TOOLCALL
 from .tasks.simple import SimpleIOTask
 from .tasks.toolcall import ToolCallIOTask
 

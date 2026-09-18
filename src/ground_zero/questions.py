@@ -11,14 +11,6 @@ GZ_QUESTIONS_BASE: Final = {
             "Severe hallucination: a central claim or conclusion is unsupported or contradicted, but some grounded content remains",
             "Total fabrication: most material claims are unsupported or contradicted, leaving no reliable grounded conclusion",
         ],
-    },
-    "has_unsupported_claims": {
-        "type": "noul",
-        "instructions": "Does the output contain any material claim that is unsupported or contradictory to the supplied evidence?",
-        "criteria": {
-            "true": "At least one material claim is unsupported or contradictory",
-            "false": "Every material claim is supported by the supplied evidence",
-        },
     }
 }
 
