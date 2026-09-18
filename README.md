@@ -225,5 +225,4 @@ Despite it's goal is to evaluate model's hallucination rate, it cannot reliably 
 # Roadmap
 Ground Zero is still early in development. These are still planned:
 
-- [ ] Custom decision thresholds - configure when probabilistic results should be treated as actionable findings. For example, interpret a `noul` probability of `0.5` or higher as `true`, or flag outputs whose hallucination severity reaches a configured level.
 - [ ] Better documentation and schema - Documentation and schema is still work in progress and things may change
