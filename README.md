@@ -106,4 +106,4 @@ Ground Zero is still early in development. These are still planned:
 - [ ] Better documentation and schema - Documentation and schema is still work in progress and things may change
 - [ ] Scope expansion - in addition to hallucinations, this might evolve to evaluate other aspects of model behavior:
   - [x] Instruction following - evaluates if the model strictly adheres to the instruction including system instructions, multi-turn and policy compliance
-  - [ ] Task completion - evaluates if the model can complete the task from the prompt and context
+  - [ ] Partial tool calls - Similar to Codex "Approve for me" permission mode, this checks the model's emitted tool calls to see if it can be flagged as 'safe', 'prompt_for_approval', or 'unsafe' before taking action and answering.
