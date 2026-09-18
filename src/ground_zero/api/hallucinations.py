@@ -2,9 +2,9 @@ from typing import Self
 
 import httpx
 
-from .questions import GZ_QUESTIONS_BASE, GZ_QUESTIONS_TASK_TOOLCALL
-from .tasks.simple import SimpleIOTask
-from .tasks.toolcall import ToolCallIOTask
+from ..questions import GZ_QUESTIONS_BASE, GZ_QUESTIONS_TASK_TOOLCALL
+from ..tasks.hallucinations.simple import SimpleIOTask
+from ..tasks.hallucinations.toolcall import ToolCallIOTask
 
 TASKMODES = SimpleIOTask | ToolCallIOTask
 

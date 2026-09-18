@@ -35,7 +35,7 @@ wheels = [
 
 [[package]]
 name = "ground-zero"
-version = "0.1.0"
+version = "0.3a0"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
