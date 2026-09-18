@@ -1,4 +1,4 @@
-from .api import AsyncChecker as AsyncHallucinationsChecker
-from .api import Checker as HallucinationsChecker
+from .api import AsyncChecker as AsyncIFChecker
+from .api import Checker as IFChecker
 
-__all__ = ["AsyncHallucinationsChecker", "HallucinationsChecker"]
+__all__ = ["AsyncIFChecker", "IFChecker"]
