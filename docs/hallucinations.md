@@ -89,7 +89,7 @@ It outputs the following response (higher scores means higher confidence per cri
 
 It also means the likely certainty is the model is hallucinating by contradicting or disregarding the prompt and source material, while it made an unrelated claim that it is a subsidary of Sun Microsystems.
 
-The question schema is provided in [schema.py](../src/ground_zero/hallucinations/questions.py) (MIGHT CHANGE AT ANYTIME)
+The schema for the model to make decisions is provided in [questions.py](../src/ground_zero/hallucinations/questions.py) (MIGHT CHANGE AT ANYTIME)
 
 ## Tool calls
 Model tool calls including call and results can also be evaluated, however it is limited up-to 5 tool calls, it does not support adding intermediary preambles or responses, as well as chain-of-thought reasoning.
