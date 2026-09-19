@@ -9,7 +9,7 @@ there will be plans to expand for additional areas such as:
 ## Text prompts
 To perform basic text prompt evaluation, use `SimpleTask` and `IFChecker.evaluate` method, you first need to define `SimpleTask` then pass it to `IFChecker.evaluate`.
 
-Please note that the input prompt requires atleast 10 characters.
+Please note that the input prompt requires atleast 1 character to begin with.
 
 An example of hallucination evaluation using `SimpleTask` and `IFChecker.evaluate`:
 ```python
@@ -69,9 +69,10 @@ You can also supply multi-turn inputs following the OpenAI chat completions form
 Use `MultiTurnTask` to supply list of turns instead of `SimpleTask`. To make it easier, we use `MultiTurnMessage` to define the role and content of each turn but you can also use a plain dict instead.
 
 ```python
-from ground_zero.instruction_following import IFChecker as Checker
+from ground_zero.instruction_following import IFChecker
 from ground_zero.tasks.instruction_following import MultiTurnTask
 from ground_zero.tasks.instruction_following.types import MultiTurnMessage
+from os import getenv
 import json
 
 prompt = MultiTurnTask(
