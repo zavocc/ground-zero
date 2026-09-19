@@ -1,24 +1,9 @@
-from typing import Annotated, Literal
+from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, JsonValue, StringConstraints
+from pydantic import BaseModel, ConfigDict, Field
 
-NonEmptyText = Annotated[str, StringConstraints(
-    strip_whitespace=True,
-    min_length=1,
-)]
+from .types import NonEmptyText, ToolCall, ToolSchema
 
-class ToolSchema(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    name: NonEmptyText
-    description: str | None = None
-    parameters: dict[str, JsonValue] | None = None
-    required: list[str] | None = None
-
-class ToolCall(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    name: NonEmptyText
-    arguments: dict[str, JsonValue] = Field(default_factory=dict)
-    result: JsonValue | None = None
 
 # max 5 tool calls
 class ToolCallIOTask(BaseModel):

@@ -60,6 +60,8 @@ This is an example of a model calling tools reliably:
 
 This means that the 3 criteria above are false because it met the requirements of reliably calling tools. But your mileage may vary.
 
+For your application, you will need to set threshold based on how you interpret a probability score to be considered as true, for more information about Noul, see https://docs.typesafe.ai/primitives/noul
+
 ### Score
 For score types, this is how it looks like for a fully grounded prompt:
 ```json
@@ -98,7 +100,7 @@ For the response above:
 
 This places the response close to level `0`, fully grounded. The `confidence` value describes how concentrated the probabilities are around the severity levels; it is separate from the severity score and does not guarantee that the evaluation is correct. Inspect `probabilities` alongside `score` because different probability distributions can produce the same score.
 
-You can remove decimal points from `score` field if you don't need estimation and conclude based on which `legend` index has more weight. Between 0.0 to 0.9 from the computed weighted mean `score`, if it scores `0.82222222222222` then this would fall under legend `0` index.
+Ground Zero follows the `score` primitive interpretation. For more information about the `score` primitive, see https://docs.typesafe.ai/primitives/score
 
 # Roadmap
 Ground Zero is still early in development. These are still planned:

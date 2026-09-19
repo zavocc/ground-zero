@@ -1,16 +1,8 @@
-from typing import Annotated, Literal
+from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, StringConstraints
+from pydantic import BaseModel, ConfigDict
 
-PromptText = Annotated[str, StringConstraints(
-    strip_whitespace=True,
-    min_length=10,
-)]
-
-OutputText = Annotated[str, StringConstraints(
-    strip_whitespace=True,
-    min_length=1,
-)]
+from .types import OutputText, PromptText
 
 
 class SimpleIOTask(BaseModel):

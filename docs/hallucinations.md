@@ -1,5 +1,5 @@
 # Usage
-Ground Zero can currently evaluate model's responses within the following:
+Ground Zero hallucination mode can currently evaluate model's responses within the following:
 - Simple text prompts
 - Tool calls and outputs
 
@@ -7,13 +7,14 @@ there will be plans to expand for additional areas such as:
 - Multi-turn conversations
 
 ## Text prompts
-To perform basic text prompt evaluation, use `SimpleTask` and `Checker.evaluate` method, you first need to define `SimpleTask` then pass it to `Checker.evaluate`.
+To perform basic text prompt evaluation, use `SimpleTask` and `HallucinationsChecker.evaluate` method, you first need to define `SimpleTask` then pass it to `HallucinationsChecker.evaluate`.
 
 Please note that the input prompt requires atleast 512 characters.
 
-An example of hallucination evaluation using `SimpleTask` and `Checker.evaluate`:
+An example of hallucination evaluation using `SimpleTask` and `HallucinationsChecker.evaluate`:
 ```python
-from ground_zero import SimpleTask, Checker
+from ground_zero.hallucinations import HallucinationsChecker
+from ground_zero.tasks.hallucinations import SimpleTask
 from os import getenv
 import json
 
@@ -91,6 +92,8 @@ It also means the likely certainty is the model is hallucinating by contradictin
 
 The schema for the model to make decisions is provided in [questions.py](../src/ground_zero/hallucinations/questions.py) (MIGHT CHANGE AT ANYTIME)
 
+There's also an asynchronous `AsyncHallucinationsChecker` for async applications.
+
 ## Tool calls
 Model tool calls including call and results can also be evaluated, however it is limited up-to 5 tool calls, it does not support adding intermediary preambles or responses, as well as chain-of-thought reasoning.
 
@@ -100,7 +103,9 @@ You must define a task to be evaluated using `ToolCallTask` instead of `SimpleTa
 
 Example code evaluating model tool calls
 ```python
-from ground_zero import ToolCallTask, ToolCall, Checker, ToolSchema
+from ground_zero.hallucinations import HallucinationsChecker
+from ground_zero.tasks.hallucinations import ToolCallTask
+from ground_zero.tasks.hallucinations.types import ToolCall, ToolSchema
 from os import getenv
 import json
 
@@ -129,7 +134,7 @@ prompt = ToolCallTask(
     output="The latest tech news today for 2024 is apple announces iPhone 15"
 )
 
-with Checker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
+with HallucinationsChecker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
     out = checker.evaluate(prompt)
     print(json.dumps(out, indent=4))
 ```
@@ -180,10 +185,12 @@ For this task, in addition from evaluating model responses from `GZ_QUESTIONS_BA
 
 ---
 
-With grounded response, the hallucination severity scores drops significantly.
+With grounded response, the hallucination severity scores drops significantly and puts it into `Fully Grounded` criterion.
 
 ```python
-from ground_zero import ToolCallTask, ToolCall, Checker, ToolSchema
+from ground_zero.hallucinations import HallucinationsChecker
+from ground_zero.tasks.hallucinations import ToolCallTask
+from ground_zero.tasks.hallucinations.types import ToolCall, ToolSchema
 from os import getenv
 import json
 
@@ -252,7 +259,7 @@ with Checker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
 }
 ```
 
-Since the response is fully grounded, on hallucination severity field, this places the probability-weighted arithmetic mean of the `score` within the "Fully Grounded" category.
+Since the response is fully grounded, on hallucination severity field, it lands closely within the Fully Grounded spectrum.
 
 # Limitations
 Despite it's goal is to evaluate model's hallucination rate, it cannot reliably perform the following:
