@@ -2,11 +2,11 @@ from typing import Self
 
 import httpx
 
-from ground_zero.tasks.instruction_following import SimpleTask
+from ground_zero.tasks.instruction_following import MultiTurnTask, SimpleTask
 
 from .questions import GZ_QUESTIONS_BASE, GZ_QUESTIONS_COMPLETION_STATUS
 
-TASKMODES = SimpleTask
+TASKMODES = SimpleTask | MultiTurnTask
 
 
 class Checker:
