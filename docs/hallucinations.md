@@ -70,7 +70,7 @@ It outputs the following response (higher scores means higher confidence per cri
         "type": "score",
         "score": 3.93,
         "legend": {
-            "0": "Fully grounded: all material claims are supported by the supplied evidence",
+            "0": "Fully grounded: all material claims are supported by the supplied evidence, with optional citations or references",
             "1": "Minor hallucination: an unsupported detail is present but does not affect the conclusion",
             "2": "Moderate hallucination: material claims are unsupported, but the core conclusion remains grounded",
             "3": "Severe hallucination: a central claim or conclusion is unsupported or contradicted, but some grounded content remains",
@@ -151,7 +151,7 @@ The results are:
         "type": "score",
         "score": 3.27,
         "legend": {
-            "0": "Fully grounded: all material claims are supported by the supplied evidence",
+            "0": "Fully grounded: all material claims are supported by the supplied evidence, with optional citations or references",
             "1": "Minor hallucination: an unsupported detail is present but does not affect the conclusion",
             "2": "Moderate hallucination: material claims are unsupported, but the core conclusion remains grounded",
             "3": "Severe hallucination: a central claim or conclusion is unsupported or contradicted, but some grounded content remains",
@@ -229,7 +229,7 @@ with Checker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
         "type": "score",
         "score": 0.01,
         "legend": {
-            "0": "Fully grounded: all material claims are supported by the supplied evidence",
+            "0": "Fully grounded: all material claims are supported by the supplied evidence, with optional citations or references",
             "1": "Minor hallucination: an unsupported detail is present but does not affect the conclusion",
             "2": "Moderate hallucination: material claims are unsupported, but the core conclusion remains grounded",
             "3": "Severe hallucination: a central claim or conclusion is unsupported or contradicted, but some grounded content remains",
@@ -263,7 +263,7 @@ Since the response is fully grounded, on hallucination severity field, it lands 
 
 # Limitations
 Despite it's goal is to evaluate model's hallucination rate, it cannot reliably perform the following:
-- Assess model's parametric knowledge - this library can evaluate if the model sticks to the prompt and provided source material, not its factuality and world knowledge from its weights. Therefore if the question contains ungrounded prompt with simple factual questions, this won't work well.
+- Assess model's parametric knowledge - this evaluation mode can evaluate if the model is faithful enough to the prompt and provided source material to generate a response based on the given material, not its factuality and world knowledge from its weights. To evaluate parametric knowledge, you must use [correctness](correctness.md) evaluation mode.
 - Multimodal - it cannot reliably assess multimodal inputs such as images or audio, only text.
 - Mathematical, logic, and overall reasoning - The underlying model used for this tool is a decision model, it can only produce probability scores from the criteria given, not reason from them. Therefore you cannot use this for checking math answers like a calculator or validate the overall correctness of the responses.
 - It only has context size of 32k input tokens
