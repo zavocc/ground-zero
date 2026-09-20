@@ -1,11 +1,7 @@
-from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, Field, JsonValue, StringConstraints
+from pydantic import BaseModel, ConfigDict, Field, JsonValue
 
-NonEmptyText = Annotated[str, StringConstraints(
-    strip_whitespace=True,
-    min_length=1,
-)]
+from ...shared.types import NonEmptyText
 
 
 class ToolSchema(BaseModel):
