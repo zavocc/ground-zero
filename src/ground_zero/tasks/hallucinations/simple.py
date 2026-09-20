@@ -4,7 +4,7 @@ from pydantic import BaseModel, ConfigDict, StringConstraints
 
 from ..shared.types import NonEmptyText
 
-PromptText = Annotated[str, StringConstraints(
+MinimumPromptText = Annotated[str, StringConstraints(
     strip_whitespace=True,
     min_length=512,
 )]
@@ -13,5 +13,5 @@ PromptText = Annotated[str, StringConstraints(
 class SimpleIOTask(BaseModel):
     model_config = ConfigDict(extra="forbid")
     type: Literal["simple"] = "simple"
-    prompt: PromptText
+    prompt: MinimumPromptText
     output: NonEmptyText
