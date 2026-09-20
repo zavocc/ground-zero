@@ -4,7 +4,7 @@ Ground Zero Instruction Following mode can currently evaluate model's responses 
 - Multi-turn conversations
 
 there will be plans to expand for additional areas such as:
-- Tool calls
+- Tool calls that follows its intended description of what it should do.
 
 ## Text prompts
 To perform basic text prompt evaluation, use `SimpleTask` and `IFChecker.evaluate` method, you first need to define `SimpleTask` then pass it to `IFChecker.evaluate`.
@@ -66,12 +66,12 @@ From these results, it is confident that the model response weighs more closely 
 ## Multi-turn inputs
 You can also supply multi-turn inputs following the OpenAI chat completions format, note that it doesn't support tool role or non-textual turns, and the assistant role must always be at the end of the list of `MultiTurnTask.messages`
 
-Use `MultiTurnTask` to supply list of turns instead of `SimpleTask`. To make it easier, we use `MultiTurnMessage` to define the role and content of each turn but you can also use a plain dict instead.
+Use `MultiTurnTask` to supply list of turns instead of `SimpleTask`. To make it easier for you to define multi-turn inputs in your IDE, we use `MultiTurnMessage` from `ground_zero.tasks.shared.types` to define the role and content of each turn but you can also use a plain dict instead.
 
 ```python
 from ground_zero.instruction_following import IFChecker
 from ground_zero.tasks.instruction_following import MultiTurnTask
-from ground_zero.tasks.instruction_following.types import MultiTurnMessage
+from ground_zero.tasks.shared.types import MultiTurnMessage
 from os import getenv
 import json
 

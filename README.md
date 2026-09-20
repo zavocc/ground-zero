@@ -32,7 +32,8 @@ You must also have an OpenRouter account with $1 balance, obtain the API key her
 
 # Usage
 Ground Zero supports model evaluation with the following modes, to see documentation on how to evaluate each mode, click on the link:
-- [Hallucination](./docs/hallucinations.md) - Evaluates if the model is hallucinating or not based from given source material
+- [Hallucination](./docs/hallucinations.md) - Evaluates if the model is hallucinating or not based from the prompt and given source material. This does not focus on model's world knowledge or correctness.
+- [Correctness](./docs/correctness.md) - Evaluates if the model outputs closely matches from the expected output. Unlike hallucination evaluation mode which on faithfulness of the response when given a prompt and existing source material, this mode checks if the model's output meets the expectation of the given output that a model should produce. This is useful for assessing model's parametric knowledge in broad domains.
 - [Instruction Following](./docs/instruction-following.md) - Evaluates if the model strictly adheres to the instruction including system instructions and user instructions.
 
 ## Working with outputs
@@ -108,5 +109,4 @@ Ground Zero is still early in development. These are still planned:
 - [ ] Better documentation and schema - Documentation and schema is still work in progress and things may change
 - [ ] Scope expansion - in addition to hallucinations, this might evolve to evaluate other aspects of model behavior:
   - [x] Instruction following - evaluates if the model strictly adheres to the instruction including system instructions, multi-turn and policy compliance
-  - [ ] Correctness - Using reference material to compare model's outputs if the prompt such as parametric factual correctness matches the reference.
-  - [ ] Partial tool calls - Similar to Codex "Approve for me" permission mode, this checks the model's emitted tool calls to see if it can be flagged as 'safe', 'prompt_for_approval', or 'unsafe' before taking action and answering.
+  - [x] Correctness - Using reference material to compare model's outputs if the prompt such as parametric factual correctness matches the reference.
