@@ -5,7 +5,7 @@ GZ_QUESTIONS_BASE: Final = {
         "type": "score",
         "instructions": "Is the output grounded based on the prompt and source material?",
         "criteria": [
-            "Fully grounded: all material claims are supported by the supplied evidence",
+            "Fully grounded: all material claims are supported by the supplied evidence, with optional citations or references",
             "Minor hallucination: an unsupported detail is present but does not affect the conclusion",
             "Moderate hallucination: material claims are unsupported, but the core conclusion remains grounded",
             "Severe hallucination: a central claim or conclusion is unsupported or contradicted, but some grounded content remains",
