@@ -2,12 +2,12 @@ from typing import Self
 
 import httpx
 
-from ground_zero.tasks.hallucinations import SimpleTask, ToolCallTask
+from ground_zero.tasks.correctness import MultiTurnTask, SimpleTask
 
 from ..constants import *
-from .questions import GZ_QUESTIONS_BASE, GZ_QUESTIONS_TASK_TOOLCALL
+from .questions import GZ_QUESTIONS_BASE, GZ_QUESTIONS_TASK_MULTITURN
 
-TASKMODES = SimpleTask | ToolCallTask
+TASKMODES = SimpleTask | MultiTurnTask
 
 
 class Checker:
@@ -28,7 +28,7 @@ class Checker:
 
     def evaluate(self, task: TASKMODES):
         # determine question type
-        question_type = GZ_QUESTIONS_TASK_TOOLCALL if isinstance(task, ToolCallTask) else GZ_QUESTIONS_BASE
+        question_type = GZ_QUESTIONS_TASK_MULTITURN if isinstance(task, MultiTurnTask) else GZ_QUESTIONS_BASE
 
         # headers
         or_headers = {
@@ -75,7 +75,7 @@ class AsyncChecker:
 
     async def evaluate(self, task: TASKMODES):
         # determine question type
-        question_type = GZ_QUESTIONS_TASK_TOOLCALL if isinstance(task, ToolCallTask) else GZ_QUESTIONS_BASE
+        question_type = GZ_QUESTIONS_TASK_MULTITURN if isinstance(task, MultiTurnTask) else GZ_QUESTIONS_BASE
 
         # headers
         or_headers = {
