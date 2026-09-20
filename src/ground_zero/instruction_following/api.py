@@ -4,6 +4,7 @@ import httpx
 
 from ground_zero.tasks.instruction_following import MultiTurnTask, SimpleTask
 
+from ..constants import *
 from .questions import GZ_QUESTIONS_BASE, GZ_QUESTIONS_COMPLETION_STATUS
 
 TASKMODES = SimpleTask | MultiTurnTask
@@ -34,21 +35,21 @@ class Checker:
         # headers
         or_headers = {
             "Authorization": f"Bearer {self._api_key}",
-            "Content-Type": "application/json",
-            "HTTP-Referer": "https://github.com/zavocc/ground-zero",
-            "X-OpenRouter-Title": "Ground Zero"
+            "Content-Type": OR_HEADER_CONTENT_TYPE,
+            "HTTP-Referer": OR_HEADER_HTTP_REFERER,
+            "X-OpenRouter-Title": OR_HEADER_X_OPENROUTER_TITLE
         }
 
         # body
         or_body = {
-            "model": "~typesafe/jev-latest",
+            "model": OR_MODEL,
             "state": task.model_dump(mode="json"),
             "questions": question_type
         }
 
         # response
         or_response = self._client.post(
-            url="https://openrouter.ai/api/alpha/decisions",
+            url=OR_URL,
             headers=or_headers,
             json=or_body
         )
@@ -83,21 +84,21 @@ class AsyncChecker:
         # headers
         or_headers = {
             "Authorization": f"Bearer {self._api_key}",
-            "Content-Type": "application/json",
-            "HTTP-Referer": "https://github.com/zavocc/ground-zero",
-            "X-OpenRouter-Title": "Ground Zero"
+            "Content-Type": OR_HEADER_CONTENT_TYPE,
+            "HTTP-Referer": OR_HEADER_HTTP_REFERER,
+            "X-OpenRouter-Title": OR_HEADER_X_OPENROUTER_TITLE
         }
 
         # body
         or_body = {
-            "model": "~typesafe/jev-latest",
+            "model": OR_MODEL,
             "state": task.model_dump(mode="json"),
             "questions": question_type
         }
 
         # response
         or_response = await self._client.post(
-            url="https://openrouter.ai/api/alpha/decisions",
+            url=OR_URL,
             headers=or_headers,
             json=or_body
         )
