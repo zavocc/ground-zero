@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, JsonValue, field_validator
 
 from ..shared.types import MultiTurnMessage
 
@@ -9,6 +9,7 @@ class MultiTurnTask(BaseModel):
     model_config = ConfigDict(extra="forbid")
     type: Literal["multiturn"] = "multiturn"
     messages: list[MultiTurnMessage]
+    expected_output: JsonValue
 
     @field_validator("messages")
     @classmethod
