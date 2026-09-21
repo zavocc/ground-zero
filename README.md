@@ -3,7 +3,10 @@
 > This is in alpha status, schemas and API shapes may change at anytime! Use this at your own risk.
 
 > [!CAUTION]
-> While Jev is a System One model and is smart enough to make decisions based on provided JSON schema without needing to train a model, it can make mistakes such as score discrepancies and contradicting results. The idea of LLM-as-a-Judge is still an evolving area, therefore after using this tool, you must manually validate the results.
+> While Jev is a System One model and is smart enough to make decisions based on provided JSON schema without needing to train a model, it can make mistakes such as score discrepancies and contradicting results. The idea of LLM-as-a-Judge is still an evolving area, therefore after using this tool, you must manually validate the results. 
+
+> [!NOTE]
+> PRs are highly appreciated to improve evals.
 
 Ground Zero is a library to evaluate model's hallucinations, correctness, and instruction following drift from user and tool or source material prompts against the model's responses.
 
