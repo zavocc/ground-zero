@@ -1,5 +1,5 @@
-from .simple import SimpleIOTask as SimpleTask
-from .toolcall import ToolCallIOTask as ToolCallTask
+from .simple import SimpleTask
+from .toolcall import ToolCallTask
 from .types import ToolCall, ToolSchema
 
 __all__ = ["SimpleTask", "ToolCall", "ToolCallTask", "ToolSchema"]

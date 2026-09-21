@@ -10,7 +10,7 @@ MinimumPromptText = Annotated[str, StringConstraints(
 )]
 
 
-class SimpleIOTask(BaseModel):
+class SimpleTask(BaseModel):
     model_config = ConfigDict(extra="forbid")
     type: Literal["simple"] = "simple"
     prompt: MinimumPromptText
