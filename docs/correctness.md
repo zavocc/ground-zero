@@ -28,7 +28,7 @@ prompt = SimpleTask(
     expected_output="29"
 )
 with CorrectnessChecker(api_key=getenv("OPENROUTER_API_KEY")) as checker:
-    out = checker.evaluate(prompt, include_completion_status=True)
+    out = checker.evaluate(prompt)
     print(json.dumps(out, indent=4))
 ```
 
