@@ -6,7 +6,7 @@ from .types import NonEmptyText, ToolCall, ToolSchema
 
 
 # max 5 tool calls
-class ToolCallIOTask(BaseModel):
+class ToolCallTask(BaseModel):
     model_config = ConfigDict(extra="forbid")
     type: Literal["tool_calls"] = "tool_calls"
     prompt: NonEmptyText

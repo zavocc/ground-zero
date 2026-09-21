@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict
 from ..shared.types import NonEmptyText
 
 
-class SimpleIOTask(BaseModel):
+class SimpleTask(BaseModel):
     model_config = ConfigDict(extra="forbid")
     type: Literal["simple"] = "simple"
     system_prompt: NonEmptyText | None = None
