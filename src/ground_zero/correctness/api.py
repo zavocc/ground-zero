@@ -5,6 +5,7 @@ import httpx
 from ground_zero.tasks.correctness import MultiTurnTask, SimpleTask
 
 from ..constants import *
+from ..functions import validate_task
 from .questions import GZ_QUESTIONS_BASE, GZ_QUESTIONS_TASK_MULTITURN
 
 TASKMODES = SimpleTask | MultiTurnTask
@@ -27,6 +28,7 @@ class Checker:
         self.close()
 
     def evaluate(self, task: TASKMODES):
+        validate_task(task, TASKMODES)
         # determine question type
         question_type = GZ_QUESTIONS_TASK_MULTITURN if isinstance(task, MultiTurnTask) else GZ_QUESTIONS_BASE
 
@@ -74,6 +76,7 @@ class AsyncChecker:
         await self.aclose()
 
     async def evaluate(self, task: TASKMODES):
+        validate_task(task, TASKMODES)
         # determine question type
         question_type = GZ_QUESTIONS_TASK_MULTITURN if isinstance(task, MultiTurnTask) else GZ_QUESTIONS_BASE
 
