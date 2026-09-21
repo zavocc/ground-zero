@@ -11,7 +11,7 @@ To perform basic text prompt evaluation, use `SimpleTask` and `IFChecker.evaluat
 
 Please note that the input prompt requires atleast 1 character to begin with.
 
-An example of hallucination evaluation using `SimpleTask` and `IFChecker.evaluate`:
+An example of IF evaluation using `SimpleTask` and `IFChecker.evaluate`:
 ```python
 from ground_zero.instruction_following import IFChecker
 from ground_zero.tasks.instruction_following import SimpleTask

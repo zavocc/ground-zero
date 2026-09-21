@@ -2,9 +2,12 @@
 > [!WARNING]
 > This is in alpha status, schemas and API shapes may change at anytime! Use this at your own risk.
 
-Ground Zero is a library to evaluate model's hallucinations and instruction following drift from user and tool or source material prompts against the model's responses.
+> [!CAUTION]
+> While Jev is a System One model and is smart enough to make decisions based on provided JSON schema without needing to train a model, it can make mistakes such as score discrepancies and contradicting results. The idea of LLM-as-a-Judge is still an evolving area, therefore after using this tool, you must manually validate the results.
 
-Powered by Jev AI by TypeSafe as a primary decision-making capability. This library makes it easier to assess and integrate to your AI applications to determine if the model strictly adheres to prompt and source material or completely goes off-task or off-topic even when it is not supposed to.
+Ground Zero is a library to evaluate model's hallucinations, correctness, and instruction following drift from user and tool or source material prompts against the model's responses.
+
+Powered by Jev AI by TypeSafe as a primary decision-making capability for evaluating model responses based on provided criteria. This library makes it easier to assess and integrate to your AI applications to determine if the model strictly adheres to prompt and source material, follows instructions, or compare expected vs actual responses,
 
 ## Origins
 
